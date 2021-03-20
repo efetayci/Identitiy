@@ -27,15 +27,32 @@ namespace Identitiy.Controllers
         {
             if (ModelState.IsValid)
             {
-               var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+
+               var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe,true);
+                //remember me zaten cookie de tutim mi 4.değer de lock out.Access  failed count?
+
                 //result.Succeeded giriş başarılı mı?
                 //result.IsLockedOut kilitlimi bu kişi?
                 //result.IsNotAllowed aktif üye için email doğrulaması var mı?
+
+                if (result.IsLockedOut)
+                {
+                    //locklama süresini gösterme
+                    var gelen = await _userManager.GetLockoutEndDateAsync(await _userManager.FindByNameAsync(model.UserName));
+                    var kisitlananSure = gelen.Value;
+                    var kalanDakika = kisitlananSure.Minute - DateTime.Now.Minute;
+                    //
+                    ModelState.AddModelError("", $"Şifreyi 5 kere yanlış girdiğiniz için {kalanDakika} dakika kitlendi");
+                    return View("Inedx",model); //redirect dersek hata görünmez.
+                }
+                
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Panel");
                 }
-                ModelState.AddModelError("", "Kullanici adi veya şifre hatalı");
+                var yanlisGirilmeSayisi = await _userManager.GetAccessFailedCountAsync(await _userManager
+                    .FindByNameAsync(model.UserName));
+                ModelState.AddModelError("", $"Kullanici adi veya şifre hatalı{3-yanlisGirilmeSayisi} kadar yanlış girerseniz hesap bloklanır");
             }
             return View("Index",model);
         }

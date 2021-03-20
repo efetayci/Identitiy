@@ -36,6 +36,8 @@ namespace Identitiy
                 opt.Password.RequiredLength = 1;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);//locklama süresi
+                    opt.Lockout.MaxFailedAccessAttempts = 3;//kaç defa yanlýþ girince blocklayim.
                     }
                 ).AddEntityFrameworkStores<KursContext>();
 
