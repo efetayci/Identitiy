@@ -2,6 +2,7 @@ using Identitiy.Context;
 using Identitiy.MyContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,28 @@ namespace Identitiy
             services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddDbContext<KursContext>();
-            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<KursContext>();
+            services.AddIdentity<AppUser, AppRole>(
+                opt=> { //parola kýsýtlamalarý
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequiredLength = 1;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                    }
+                ).AddEntityFrameworkStores<KursContext>();
+
+            ///<summary>
+            ///cookie ayarlarý
+            /// </summary>
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.HttpOnly = true; // scriptte cookie verisine ulaþamaz
+                opt.Cookie.Name = "KursCookie"; //Cookienin ismi
+                opt.Cookie.SameSite = SameSiteMode.Strict; //Cookie sub domainler bile erþemez, lux yaparsam herkes eriþir.
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;//http ve https ile çalýþýr
+                opt.ExpireTimeSpan = TimeSpan.FromDays(20);//Cookie ömrü
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -23,11 +23,19 @@ namespace Identitiy.Controllers
             return View(new UserSıgnInViewModel());
         }
         [HttpPost]
-        public IActionResult GirisYap(UserSıgnInViewModel model)
+        public async Task<IActionResult> GirisYap(UserSıgnInViewModel model)
         {
             if (ModelState.IsValid)
             {
-
+               var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                //result.Succeeded giriş başarılı mı?
+                //result.IsLockedOut kilitlimi bu kişi?
+                //result.IsNotAllowed aktif üye için email doğrulaması var mı?
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Panel");
+                }
+                ModelState.AddModelError("", "Kullanici adi veya şifre hatalı");
             }
             return View("Index",model);
         }

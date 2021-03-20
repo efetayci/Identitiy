@@ -28,6 +28,12 @@
             <input asp-for="@Model.Password" class="form-control" />
         </div>
         <br />
+        <div class="form-check">
+            <input type="checkbox" asp-for="@Model.RememberMe" />
+            <label class="form-chech-label" asp-for="@Model.RememberMe">Beni Hatırla</label>
+        </div>
+        <div class="text-danger" asp-validation-summary=ModelOnly></div>
+        <br />
         <input type="submit" class="btn btn-primary" value="Giriş Yap"/>
         <small> Hesabınız Yok mu <a asp-action="KayitOl" class="btn btn-link">Kayıt Ol</a> </small>
     </form>
