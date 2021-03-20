@@ -1,4 +1,5 @@
 using Identitiy.Context;
+using Identitiy.CustomValidator;
 using Identitiy.MyContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,15 +38,18 @@ namespace Identitiy
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);//locklama süresi
-                    opt.Lockout.MaxFailedAccessAttempts = 3;//kaç defa yanlýþ girince blocklayim.
+                opt.Lockout.MaxFailedAccessAttempts = 3;//kaç defa yanlýþ girince blocklayim.
                     }
-                ).AddEntityFrameworkStores<KursContext>();
+                ).AddPasswordValidator<CustomPasswordValidator>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<KursContext>();
+            
+            //Yukarýdaki error describer bizim eklediðimiz kontrolleri içermesi için
 
             ///<summary>
             ///cookie ayarlarý
             /// </summary>
             services.ConfigureApplicationCookie(opt =>
             {
+                opt.LoginPath = new PathString("/Home/Index");// yetkim olmayan bir yere gitmek istediðim zaman yönlendirme.
                 opt.Cookie.HttpOnly = true; // scriptte cookie verisine ulaþamaz
                 opt.Cookie.Name = "KursCookie"; //Cookienin ismi
                 opt.Cookie.SameSite = SameSiteMode.Strict; //Cookie sub domainler bile erþemez, lux yaparsam herkes eriþir.
@@ -74,7 +78,9 @@ namespace Identitiy
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

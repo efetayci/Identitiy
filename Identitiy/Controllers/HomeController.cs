@@ -48,7 +48,8 @@ namespace Identitiy.Controllers
                 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Panel");
+                    return RedirectToAction("Index","Panel");
+                   
                 }
                 var yanlisGirilmeSayisi = await _userManager.GetAccessFailedCountAsync(await _userManager
                     .FindByNameAsync(model.UserName));

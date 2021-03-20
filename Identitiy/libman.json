@@ -4,11 +4,7 @@
   "libraries": [
     {
       "library": "twitter-bootstrap@4.6.0",
-      "destination": "wwwroot/lib/twitter-bootstrap/",
-      "files": [
-        "js/bootstrap.min.js",
-        "css/bootstrap.min.css"
-      ]
+      "destination": "wwwroot/twitter-bootstrap/"
     }
   ]
 }

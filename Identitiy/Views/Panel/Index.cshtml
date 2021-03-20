@@ -1,0 +1,25 @@
+﻿
+@model AppUser
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<table class="table table-hover table sm">
+    <tr>
+        <th>İsim:</th>
+        <td>@Model.Name</td>
+    </tr>
+     <tr>
+        <th>Soyisim:</th>
+        <td>@Model.SurName</td>
+    </tr>
+     <tr>
+        <th>Email:</th>
+        <td>@Model.Email</td>
+    </tr>
+     <tr>
+        <th>Resim:</th>
+        <td>@Model.PictureUrl</td>
+    </tr>
+</table>
+
