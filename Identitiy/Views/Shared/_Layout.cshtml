@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="@Url.Content("~/lib/twitter-boostrap/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
     <div class="row">
@@ -13,9 +14,11 @@
   <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
     The current link item
   </a>
-  <a asp-action="UpdateUser" asp-controller="Panel">Bilgilerimi Düzenle</a>
-  <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-  <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+  <a class="list-group-item list-group-item-action" asp-action="UpdateUser" asp-controller="Panel">Bilgilerimi Güncelle</a>
+  <a asp-action="Index" asp-controller="Rol" class="list-group-item list-group-item-action">Rol İşlemleri</a>
+  <a asp-action="UserList" asp-controller="Rol" class="list-group-item list-group-item-action">Kullanıcı İşlemleri</a>
+  <a asp-action="Index" asp-controller="Female" class="list-group-item list-group-item-action">Bayanlar Sayfası</a>
+  <a asp-action="LogOut" asp-controller="Panel" class="list-group-item list-group-item-action">Çıkış Yap</a>
   <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">A disabled link item</a>
 </div>
         </div>

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Identitiy.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class HomeController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -23,6 +24,7 @@ namespace Identitiy.Controllers
             return View(new UserSıgnInViewModel());
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> GirisYap(UserSıgnInViewModel model)
         {
             if (ModelState.IsValid)
@@ -43,9 +45,15 @@ namespace Identitiy.Controllers
                     var kalanDakika = kisitlananSure.Minute - DateTime.Now.Minute;
                     //
                     ModelState.AddModelError("", $"Şifreyi 5 kere yanlış girdiğiniz için {kalanDakika} dakika kitlendi");
-                    return View("Inedx",model); //redirect dersek hata görünmez.
+                    return View("Index",model); //redirect dersek hata görünmez.
                 }
-                
+                if (result.IsLockedOut)
+                {
+                    
+                    ModelState.AddModelError("", "Email adresinizi doğrulayınız.");
+                    return View("Index", model); //redirect dersek hata görünmez.
+                }
+
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index","Panel");
@@ -62,6 +70,7 @@ namespace Identitiy.Controllers
             return View(new UserSignUpViewModel());
         }
         [HttpPost]
+     
         public async Task<IActionResult> KayitOl(UserSignUpViewModel model)
         {
             if (ModelState.IsValid)
@@ -89,6 +98,10 @@ namespace Identitiy.Controllers
                 }
             }
             return View(model);
+        }
+        public IActionResult AccessDenited()
+        {
+            return View();
         }
     }
 }

@@ -39,7 +39,9 @@ namespace Identitiy
                 opt.Password.RequireUppercase = false;
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);//locklama süresi
                 opt.Lockout.MaxFailedAccessAttempts = 3;//kaç defa yanlýþ girince blocklayim.
-                    }
+                //opt.SignIn.RequireConfirmedEmail = true; //email kotnrolü
+                
+                }
                 ).AddPasswordValidator<CustomPasswordValidator>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<KursContext>();
             
             //Yukarýdaki error describer bizim eklediðimiz kontrolleri içermesi için
@@ -55,6 +57,11 @@ namespace Identitiy
                 opt.Cookie.SameSite = SameSiteMode.Strict; //Cookie sub domainler bile erþemez, lux yaparsam herkes eriþir.
                 opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;//http ve https ile çalýþýr
                 opt.ExpireTimeSpan = TimeSpan.FromDays(20);//Cookie ömrü
+                opt.AccessDeniedPath = new PathString("/Home/AccessDenited");//rollerde sýkýntý çýkarsa
+            });
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("FemalePolicy", cnf => { cnf.RequireClaim("gender", "female"); });
             });
 
         }

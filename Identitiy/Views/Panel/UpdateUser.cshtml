@@ -4,8 +4,9 @@
     ViewData["Title"] = "UpdateUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<form asp-action="UpdateUser" asp-controller="Panel" method="post" class="w-75 mx-auto p-3">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<form asp-action="UpdateUser" asp-controller="Panel" method="post"
+class="w-75 mx-auto p-3" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Name"></label>
         <span asp-validation-for="Name" class="text-danger"></span>
@@ -38,8 +39,12 @@
             <div class="col-md-8">
                 <input type="file" asp-for="@Model.Picture"/>
             </div>
-            <button class="btn btn-info" type="submit">Kaydet</button>
+            
         </div>
     </div>
+    <div asp-validation-summary="ModelOnly" class ="text-danger">
+        
+    </div>
+    <button class="btn btn-info" type="submit">Kaydet</button>
 </form>
 

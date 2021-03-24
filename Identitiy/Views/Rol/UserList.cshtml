@@ -1,0 +1,29 @@
+﻿@model List<AppUser>
+
+@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-sm table-hover">
+    <tr>
+        <td>AD</td>
+        <td>Roller</td>
+        <td>Claim</td>
+        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td><a asp-action="AssignRole" asp-route-id ="@item.Id" class=
+        "btn btn-warning btn-sm">Rol Ata</a></td>
+        <td>
+            <a asp-action="AddClaim" asp-controller="Female" asp-route-id="@item.Id" class="btn btn-info btn-sm">Claim Ekle</a>
+        </td>
+        </tr>
+    }
+
+</table>
+
